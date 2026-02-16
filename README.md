@@ -215,7 +215,7 @@ php -S localhost:8000 -t public/
 ## Support et contact
 
 Pour toute question ou problème :
-- **Email équipe** : voara.etu004587@gmail.com
+- **Email équipe** : voaraandriantsitohaina30@gmail.com
 - **Repository GitHub** : [Samuel-fort/Projet-final-trinome](https://github.com/Samuel-fort/Projet-final-trinome)
 - **Consulter** : [Todolist](todolist.md) pour l'état des tâches
 

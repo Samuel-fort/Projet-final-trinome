@@ -13,7 +13,7 @@
                 <a href="https://github.com/Samuel-fort/Projet-final-trinome" target="_blank" class="btn btn-sm btn-outline-light me-2">
                     <i class="bi bi-github me-1"></i>GitHub
                 </a>
-                <a href="/todolist.md" class="btn btn-sm btn-outline-light">
+                <a href="/todolist" class="btn btn-sm btn-outline-light">
                     <i class="bi bi-check2-square me-1"></i>Todolist
                 </a>
             </div>
