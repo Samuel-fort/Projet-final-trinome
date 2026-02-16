@@ -9,10 +9,12 @@ class ConfigModel extends BaseModel
      */
     public function getConfig(string $nomConfig): ?array
     {
-        return $this->db->fetchRow("
+        $result = $this->db->fetchRow("
             SELECT * FROM config_frais 
             WHERE nom_config = ?
         ", [$nomConfig]);
+        
+        return $result ? json_decode(json_encode($result), true) : null;
     }
 
     /**
@@ -42,9 +44,11 @@ class ConfigModel extends BaseModel
      */
     public function getAllConfigs(): array
     {
-        return $this->db->fetchAll("
+        $result = $this->db->fetchAll("
             SELECT * FROM config_frais 
             ORDER BY nom_config
         ");
+        
+        return json_decode(json_encode($result), true);
     }
 }

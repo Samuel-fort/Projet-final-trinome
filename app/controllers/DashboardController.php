@@ -11,7 +11,37 @@ class DashboardController extends BaseController
 {
     public function index(): void
     {
-        $this->render('dashboard/index', [], 'Dashboard - BNGRC');
+        // Statistiques sur les besoins
+        $totalBesoinsData = $this->db()->fetchRow("
+            SELECT 
+                COUNT(*) AS nb_besoins,
+                SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_besoins,
+                SUM(bv.quantite_recue * tb.prix_unitaire) AS valeur_couverte
+            FROM besoin_ville bv
+            JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+        ");
+
+        // Convertir en array si c'est une Collection
+        $totalBesoins = json_decode(json_encode($totalBesoinsData), true);
+
+        // Statistiques sur les dons et distributions
+        $statsGlobauxData = $this->db()->fetchRow("
+            SELECT 
+                COUNT(DISTINCT d.id_don) AS nb_dons,
+                COALESCE(SUM(d.quantite * tb.prix_unitaire), 0) AS valeur_totale,
+                COALESCE(SUM(dist.quantite_attribuee * tb.prix_unitaire), 0) AS valeur_distribuee
+            FROM don d
+            JOIN type_besoin tb ON d.id_type_besoin = tb.id_type_besoin
+            LEFT JOIN distribution dist ON d.id_don = dist.id_don
+        ");
+
+        // Convertir en array si c'est une Collection
+        $statsGlobaux = json_decode(json_encode($statsGlobauxData), true);
+
+        $this->render('dashboard/index', [
+            'totalBesoins' => $totalBesoins,
+            'statsGlobaux' => $statsGlobaux,
+        ], 'Dashboard - BNGRC');
     }
 
     /**

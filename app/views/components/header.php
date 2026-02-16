@@ -44,6 +44,16 @@
                         <i class="bi bi-send"></i>Distributions
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/simulation') !== false ? 'active' : '' ?>" href="/simulation">
+                        <i class="bi bi-calculator"></i>Simulation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/achats') !== false ? 'active' : '' ?>" href="/achats">
+                        <i class="bi bi-credit-card"></i>Achats
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
