@@ -48,15 +48,10 @@ $error   = isset($_GET['error']);
                     <td class="text-end fw-semibold"><?= number_format($d['valeur_totale'], 0, ',', ' ') ?> Ar</td>
                     <td class="small text-muted"><?= date('d/m/Y', strtotime($d['date_inscription'])) ?></td>
                     <td class="text-center">
-                        <a href="/donateurs/<?= $d['id_donateur'] ?>/edit" class="btn btn-sm btn-outline-secondary me-1">
-                            <i class="bi bi-pencil"></i>
+                        <a href="/donateurs/<?= $d['id_donateur'] ?>/edit" class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil me-1"></i>Modifier
                         </a>
-                        <form method="POST" action="/donateurs/<?= $d['id_donateur'] ?>/delete" class="d-inline"
-                              onsubmit="return confirm('Supprimer ce donateur ?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+                        <form method="POST" action="/donateurs/<?= $d['id_donateur'] ?>/delete" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.');"><button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash me-1"></i>Supprimer</button></form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

@@ -53,14 +53,11 @@ $error   = isset($_GET['error']);
                     <td class="text-end small"><?= number_format($d['valeur'], 0, ',', ' ') ?> Ar</td>
                     <td class="text-center">
                         <?php if ($restant > 0): ?>
-                        <a href="/distributions?don=<?= $d['id_don'] ?>" class="btn btn-sm btn-outline-primary me-1" title="Distribuer">
-                            <i class="bi bi-send"></i>
+                        <a href="/distributions?don=<?= $d['id_don'] ?>" class="btn btn-sm btn-success me-2" title="Distribuer">
+                            <i class="bi bi-send me-1"></i>Distribuer
                         </a>
                         <?php endif; ?>
-                        <form method="POST" action="/dons/<?= $d['id_don'] ?>/delete" class="d-inline"
-                              onsubmit="return confirm('Supprimer ce don ? Attention si des distributions existent.')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                        </form>
+                        <form method="POST" action="/dons/<?= $d['id_don'] ?>/delete" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.');"><button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash me-1"></i>Supprimer</button></form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

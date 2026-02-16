@@ -36,15 +36,10 @@ $error   = isset($_GET['error']);
                     <td><?= htmlspecialchars($ville['region'] ?? '-') ?></td>
                     <td class="text-muted small"><?= date('d/m/Y', strtotime($ville['date_creation'])) ?></td>
                     <td class="text-center">
-                        <a href="/villes/<?= $ville['id_ville'] ?>/edit" class="btn btn-sm btn-outline-secondary me-1">
-                            <i class="bi bi-pencil"></i>
+                        <a href="/villes/<?= $ville['id_ville'] ?>/edit" class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil me-1"></i>Modifier
                         </a>
-                        <form method="POST" action="/villes/<?= $ville['id_ville'] ?>/delete" class="d-inline"
-                              onsubmit="return confirm('Supprimer cette ville ?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+                        <form method="POST" action="/villes/<?= $ville['id_ville'] ?>/delete" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.');"><button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash me-1"></i>Supprimer</button></form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

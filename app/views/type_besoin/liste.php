@@ -40,13 +40,10 @@ $error   = isset($_GET['error']);
                     <td><?= htmlspecialchars($t['unite']) ?></td>
                     <td class="text-end"><?= number_format($t['prix_unitaire'], 0, ',', ' ') ?> Ar / <?= $t['unite'] ?></td>
                     <td class="text-center">
-                        <a href="/types-besoins/<?= $t['id_type_besoin'] ?>/edit" class="btn btn-sm btn-outline-secondary me-1">
-                            <i class="bi bi-pencil"></i>
+                        <a href="/types-besoins/<?= $t['id_type_besoin'] ?>/edit" class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil me-1"></i>Modifier
                         </a>
-                        <form method="POST" action="/types-besoins/<?= $t['id_type_besoin'] ?>/delete" class="d-inline"
-                              onsubmit="return confirm('Supprimer ce type ?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                        </form>
+                        <form method="POST" action="/types-besoins/<?= $t['id_type_besoin'] ?>/delete" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.');"><button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash me-1"></i>Supprimer</button></form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

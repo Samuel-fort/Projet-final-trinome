@@ -103,10 +103,7 @@ $prefillDon = isset($_GET['don']) ? (int)$_GET['don'] : 0;
                             <td class="text-end"><?= number_format($dist['quantite_attribuee'], 2, ',', ' ') ?> <?= $dist['unite'] ?></td>
                             <td class="text-end small"><?= number_format($dist['valeur'], 0, ',', ' ') ?> Ar</td>
                             <td>
-                                <form method="POST" action="/distributions/<?= $dist['id_distribution'] ?>/delete" class="d-inline"
-                                      onsubmit="return confirm('Annuler cette distribution ?')">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-lg"></i></button>
-                                </form>
+                                <form method="POST" action="/distributions/<?= $dist['id_distribution'] ?>/delete" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.');"><button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash me-1"></i>Annuler</button></form>
                             </td>
                         </tr>
                         <?php endforeach; ?>
