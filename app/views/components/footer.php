@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-md-6 text-center text-md-start">
                 <p class="mb-2">
-                    <small>© 2026 BNGRC &mdash; Système de gestion des dons pour sinistrés</small>
+                    © 2026 BNGRC &mdash; Système de gestion des dons pour sinistrés
                 </p>
                 <p class="mb-0">
-                    <small>Caca</small>
+                    Caca
                 </p>
             </div>
             <div class="col-md-6 text-center text-md-end">
