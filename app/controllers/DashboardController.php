@@ -3,35 +3,99 @@
 namespace app\controllers;
 
 use app\models\VilleModel;
-use app\models\DonModel;
 use app\models\BesoinModel;
+use app\models\DonModel;
+use app\models\DonateurModel;
 
 class DashboardController extends BaseController
 {
     public function index(): void
     {
-        $db = $this->db();
-        $villeModel = new VilleModel($db);
-        $donModel = new DonModel($db);
+        $this->render('dashboard/index', [], 'Dashboard - BNGRC');
+    }
 
-        $dashboardVilles = $villeModel->getDashboardData();
-        $statsGlobaux = $donModel->getStats();
+    /**
+     * Page de récapitulation
+     */
+    public function recapitulation(): void
+    {
+        $this->render('dashboard/recapitulation', [], 'Récapitulation - BNGRC');
+    }
 
-        // Totaux globaux besoins
-        $totalBesoins = $db->fetchRow("
-            SELECT
-                COALESCE(SUM(bv.quantite_demandee * tb.prix_unitaire), 0) AS valeur_besoins,
-                COALESCE(SUM(bv.quantite_recue * tb.prix_unitaire), 0) AS valeur_couverte,
-                COUNT(*) AS nb_besoins
+    /**
+     * API pour récupérer les données de récapitulation (AJAX)
+     */
+    public function getRecapData(): void
+    {
+        // Statistiques globales
+        $stats = $this->db()->fetchRow("
+            SELECT 
+                COUNT(DISTINCT v.id_ville) AS nb_villes,
+                COUNT(DISTINCT bv.id_besoin) AS nb_besoins_total,
+                COUNT(DISTINCT CASE WHEN bv.quantite_recue >= bv.quantite_demandee THEN bv.id_besoin END) AS nb_besoins_satisfaits,
+                SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_totale_besoins,
+                SUM(bv.quantite_recue * tb.prix_unitaire) AS valeur_totale_recue,
+                SUM((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS valeur_totale_manquante
             FROM besoin_ville bv
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            JOIN ville v ON bv.id_ville = v.id_ville
         ");
-        $totalBesoins = $totalBesoins ? json_decode(json_encode($totalBesoins), true) : ['valeur_besoins' => 0, 'valeur_couverte' => 0, 'nb_besoins' => 0];
 
-        $this->render('dashboard/index', [
-            'dashboardVilles' => $dashboardVilles,
-            'statsGlobaux'    => $statsGlobaux,
-            'totalBesoins'    => $totalBesoins,
-        ], 'Tableau de bord - BNGRC');
+        // Besoins par ville
+        $besoinsParVille = $this->db()->fetchAll("
+            SELECT 
+                v.id_ville,
+                v.nom_ville,
+                COUNT(bv.id_besoin) AS nb_besoins,
+                SUM(bv.quantite_demandee * tb.prix_unitaire) AS montant_total,
+                SUM(bv.quantite_recue * tb.prix_unitaire) AS montant_satisfait,
+                SUM((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS montant_restant,
+                ROUND(100 * SUM(bv.quantite_recue * tb.prix_unitaire) / NULLIF(SUM(bv.quantite_demandee * tb.prix_unitaire), 0), 2) AS pourcentage_satisfait
+            FROM ville v
+            LEFT JOIN besoin_ville bv ON v.id_ville = bv.id_ville
+            LEFT JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            GROUP BY v.id_ville, v.nom_ville
+            ORDER BY v.nom_ville
+        ");
+
+        // Détails des besoins restants
+        $besoinsRestants = $this->db()->fetchAll("
+            SELECT 
+                v.nom_ville,
+                cb.nom_categorie,
+                tb.nom AS type_nom,
+                tb.unite,
+                bv.quantite_demandee,
+                bv.quantite_recue,
+                (bv.quantite_demandee - bv.quantite_recue) AS quantite_manquante,
+                tb.prix_unitaire,
+                ((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS valeur_manquante
+            FROM besoin_ville bv
+            JOIN ville v ON bv.id_ville = v.id_ville
+            JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            JOIN categorie_besoin cb ON tb.id_categorie = cb.id_categorie
+            WHERE bv.quantite_recue < bv.quantite_demandee
+            ORDER BY v.nom_ville, cb.nom_categorie, tb.nom
+        ");
+
+        // Statistiques des dons
+        $statsDons = $this->db()->fetchRow("
+            SELECT 
+                COUNT(*) AS nb_dons_total,
+                SUM(quantite) AS montant_total_dons,
+                SUM(CASE WHEN tb.id_categorie = 1 THEN quantite * prix_unitaire ELSE 0 END) AS valeur_nature,
+                SUM(CASE WHEN tb.id_categorie = 2 THEN quantite * prix_unitaire ELSE 0 END) AS valeur_materiaux,
+                SUM(CASE WHEN tb.id_categorie = 3 THEN quantite ELSE 0 END) AS montant_argent
+            FROM don d
+            JOIN type_besoin tb ON d.id_type_besoin = tb.id_type_besoin
+        ");
+
+        $this->app->json([
+            'stats' => $stats,
+            'besoins_par_ville' => $besoinsParVille,
+            'besoins_restants' => $besoinsRestants,
+            'stats_dons' => $statsDons,
+            'timestamp' => time(),
+        ]);
     }
 }

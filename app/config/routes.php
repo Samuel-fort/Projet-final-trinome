@@ -7,6 +7,8 @@ use app\controllers\DonateurController;
 use app\controllers\DonController;
 use app\controllers\DistributionController;
 use app\controllers\TypeBesoinController;
+use app\controllers\AchatController;
+use app\controllers\SimulationController;
 use app\controllers\TodolistController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
@@ -21,6 +23,8 @@ $router->group('', function(Router $router) {
 
     // ── DASHBOARD ─────────────────────────────────────────────────────────────
     $router->get('/', [DashboardController::class, 'index']);
+    $router->get('/dashboard/recapitulation', [DashboardController::class, 'recapitulation']);
+    $router->get('/dashboard/recap-data', [DashboardController::class, 'getRecapData']);
 
     // ── TODOLIST ──────────────────────────────────────────────────────────────
     $router->get('/todolist', [TodolistController::class, 'index']);
@@ -68,5 +72,17 @@ $router->group('', function(Router $router) {
     $router->get('/distributions/besoins',                  [DistributionController::class, 'getBesoins']);
     $router->post('/distributions/store',                   [DistributionController::class, 'store']);
     $router->post('/distributions/@id:[0-9]+/delete',       [DistributionController::class, 'delete']);
+
+    // ── ACHATS (NOUVEAU) ──────────────────────────────────────────────────────
+    $router->get('/achats',                        [AchatController::class, 'index']);
+    $router->get('/achats/calculer',               [AchatController::class, 'calculer']);
+    $router->post('/achats/store',                 [AchatController::class, 'store']);
+    $router->post('/achats/@id:[0-9]+/delete',     [AchatController::class, 'delete']);
+
+    // ── SIMULATION (NOUVEAU) ──────────────────────────────────────────────────
+    $router->get('/simulation',                    [SimulationController::class, 'index']);
+    $router->get('/simulation/besoins',            [SimulationController::class, 'getBesoinsVille']);
+    $router->post('/simulation/simuler',           [SimulationController::class, 'simuler']);
+    $router->post('/simulation/valider',           [SimulationController::class, 'valider']);
 
 }, [SecurityHeadersMiddleware::class]);
