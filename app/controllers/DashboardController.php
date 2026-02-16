@@ -6,6 +6,7 @@ use app\models\VilleModel;
 use app\models\BesoinModel;
 use app\models\DonModel;
 use app\models\DonateurModel;
+use app\utils\DataConverter;
 
 class DashboardController extends BaseController
 {
@@ -16,18 +17,18 @@ class DashboardController extends BaseController
             SELECT 
                 COUNT(*) AS nb_besoins,
                 SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_besoins,
-                SUM(bv.quantite_recue * tb.prix_unitaire) AS valeur_couverte
+                COALESCE(SUM(bv.quantite_recue * tb.prix_unitaire), 0) AS valeur_couverte
             FROM besoin_ville bv
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
         ");
 
         // Convertir en array si c'est une Collection
-        $totalBesoins = json_decode(json_encode($totalBesoinsData), true);
+        $totalBesoins = DataConverter::toArray($totalBesoinsData);
 
         // Statistiques sur les dons et distributions
         $statsGlobauxData = $this->db()->fetchRow("
             SELECT 
-                COUNT(DISTINCT d.id_don) AS nb_dons,
+                COUNT(d.id_don) AS nb_dons,
                 COALESCE(SUM(d.quantite * tb.prix_unitaire), 0) AS valeur_totale,
                 COALESCE(SUM(dist.quantite_attribuee * tb.prix_unitaire), 0) AS valeur_distribuee
             FROM don d
@@ -36,11 +37,30 @@ class DashboardController extends BaseController
         ");
 
         // Convertir en array si c'est une Collection
-        $statsGlobaux = json_decode(json_encode($statsGlobauxData), true);
+        $statsGlobaux = DataConverter::toArray($statsGlobauxData);
+
+        // Statistiques par ville
+        $dashboardVillesData = $this->db()->fetchAll("
+            SELECT 
+                v.id_ville,
+                v.nom_ville,
+                v.region,
+                COUNT(bv.id_besoin) AS nb_besoins,
+                COALESCE(SUM(bv.quantite_demandee * tb.prix_unitaire), 0) AS valeur_besoins,
+                COALESCE(SUM(bv.quantite_recue * tb.prix_unitaire), 0) AS valeur_recue
+            FROM ville v
+            LEFT JOIN besoin_ville bv ON v.id_ville = bv.id_ville
+            LEFT JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            GROUP BY v.id_ville, v.nom_ville, v.region
+            ORDER BY v.nom_ville
+        ");
+
+        $dashboardVilles = DataConverter::toArray($dashboardVillesData);
 
         $this->render('dashboard/index', [
             'totalBesoins' => $totalBesoins,
             'statsGlobaux' => $statsGlobaux,
+            'dashboardVilles' => $dashboardVilles,
         ], 'Dashboard - BNGRC');
     }
 
@@ -58,7 +78,7 @@ class DashboardController extends BaseController
     public function getRecapData(): void
     {
         // Statistiques globales
-        $stats = $this->db()->fetchRow("
+        $statsData = $this->db()->fetchRow("
             SELECT 
                 COUNT(DISTINCT v.id_ville) AS nb_villes,
                 COUNT(DISTINCT bv.id_besoin) AS nb_besoins_total,
@@ -70,9 +90,10 @@ class DashboardController extends BaseController
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
             JOIN ville v ON bv.id_ville = v.id_ville
         ");
+        $stats = DataConverter::toArray($statsData);
 
         // Besoins par ville
-        $besoinsParVille = $this->db()->fetchAll("
+        $besoinsParVilleData = $this->db()->fetchAll("
             SELECT 
                 v.id_ville,
                 v.nom_ville,
@@ -87,9 +108,10 @@ class DashboardController extends BaseController
             GROUP BY v.id_ville, v.nom_ville
             ORDER BY v.nom_ville
         ");
+        $besoinsParVille = DataConverter::toArray($besoinsParVilleData);
 
         // Détails des besoins restants
-        $besoinsRestants = $this->db()->fetchAll("
+        $besoinsRestantsData = $this->db()->fetchAll("
             SELECT 
                 v.nom_ville,
                 cb.nom_categorie,
@@ -107,9 +129,10 @@ class DashboardController extends BaseController
             WHERE bv.quantite_recue < bv.quantite_demandee
             ORDER BY v.nom_ville, cb.nom_categorie, tb.nom
         ");
+        $besoinsRestants = DataConverter::toArray($besoinsRestantsData);
 
         // Statistiques des dons
-        $statsDons = $this->db()->fetchRow("
+        $statsDonsData = $this->db()->fetchRow("
             SELECT 
                 COUNT(*) AS nb_dons_total,
                 SUM(quantite) AS montant_total_dons,
@@ -119,6 +142,7 @@ class DashboardController extends BaseController
             FROM don d
             JOIN type_besoin tb ON d.id_type_besoin = tb.id_type_besoin
         ");
+        $statsDons = DataConverter::toArray($statsDonsData);
 
         $this->app->json([
             'stats' => $stats,
