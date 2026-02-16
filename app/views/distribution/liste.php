@@ -6,6 +6,9 @@ $prefillDon = isset($_GET['don']) ? (int)$_GET['don'] : 0;
 ?>
 <div class="page-header">
     <h1><i class="bi bi-send-fill"></i>Distributions</h1>
+    <a href="/besoins/create" class="btn btn-warning btn-sm" title="Créer rapidement un besoin">
+        <i class="bi bi-plus-circle me-1"></i>Créer un besoin
+    </a>
 </div>
 
 <?php if ($success): ?><div class="alert alert-success"><i class="bi bi-check-circle-fill me-2"></i>Distribution enregistrée avec succès.</div><?php endif; ?>
@@ -55,6 +58,10 @@ $prefillDon = isset($_GET['don']) ? (int)$_GET['don'] : 0;
                         <select name="id_besoin" class="form-select" required id="selectBesoin">
                             <option value="">-- D'abord choisir un don et une ville --</option>
                         </select>
+                        <div class="form-text text-warning mt-2" id="besoinInfo" style="display:none;">
+                            <i class="bi bi-exclamation-circle me-1"></i>Aucun besoin trouvé. 
+                            <a href="/besoins/create" class="text-warning fw-bold">Créer un besoin</a>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -123,6 +130,7 @@ const qteIn    = document.getElementById('qteAttrib');
 const uniteIn  = document.getElementById('uniteAttrib');
 const donInfo  = document.getElementById('donInfo');
 const maxInfo  = document.getElementById('maxInfo');
+const besoinInfo = document.getElementById('besoinInfo');
 
 async function chargerBesoins() {
     const idVille = selVille.value;
@@ -132,6 +140,7 @@ async function chargerBesoins() {
     const unite   = optDon?.dataset?.unite || 'unité';
 
     uniteIn.textContent = unite;
+    besoinInfo.style.display = 'none';
 
     if (dispo) {
         donInfo.textContent = `Disponible : ${parseFloat(dispo).toLocaleString('fr-FR')} ${unite}`;
@@ -147,6 +156,7 @@ async function chargerBesoins() {
 
     if (!data.length) {
         selBes.innerHTML = '<option value="">Aucun besoin ouvert pour cette ville/type</option>';
+        besoinInfo.style.display = 'block';
     } else {
         selBes.innerHTML = '<option value="">-- Choisir un besoin --</option>' +
             data.map(b => `<option value="${b.id_besoin}">

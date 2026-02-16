@@ -155,9 +155,11 @@ INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee) VALUES
 
 -- Besoins pour Antsirabe
 INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee) VALUES
-(3, 1, 2000.00),  -- 2000 kg riz
-(3, 4, 800.00),   -- 800 kg haricots
-(3, 10, 100.00);  -- 100 couvertures
+(3, 1, 2000.00),  -- 2000 kg riz - FAIM
+(3, 4, 800.00),   -- 800 kg haricots - FAIM
+(3, 10, 100.00),  -- 100 couvertures - FROID
+(3, 2, 300.00),   -- 300 litres huile - FAIM
+(3, 5, 1000.00);  -- 1000 litres eau - HYDRATATION
 
 -- Quelques dons
 INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
