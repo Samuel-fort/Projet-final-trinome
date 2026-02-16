@@ -6,7 +6,7 @@
                     © 2026 BNGRC &mdash; Système de gestion des dons pour sinistrés
                 </p>
                 <p class="mb-0">
-                    Caca
+                    Voara ETU 004587  -  Samuel ETU 003889   -   Lionel ETU 003972
                 </p>
             </div>
             <div class="col-md-6 text-center text-md-end">
