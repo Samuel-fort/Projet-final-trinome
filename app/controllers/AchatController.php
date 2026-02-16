@@ -41,6 +41,22 @@ class AchatController extends BaseController
     }
 
     /**
+     * Formulaire de création d'achat
+     */
+    public function create(): void
+    {
+        $donsArgent = $this->getDonsArgentDisponibles();
+        $typesBesoins = (new TypeBesoinModel($this->db()))->findAll();
+        $fraisPourcentage = (new ConfigModel($this->db()))->getFraisAchat();
+
+        $this->render('achat/formulaire', [
+            'donsArgent' => $donsArgent,
+            'typesBesoins' => $typesBesoins,
+            'fraisPourcentage' => $fraisPourcentage,
+        ], 'Nouvel achat - BNGRC');
+    }
+
+    /**
      * Récupère les dons en argent disponibles
      */
     private function getDonsArgentDisponibles(): array

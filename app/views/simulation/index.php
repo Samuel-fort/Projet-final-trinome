@@ -180,15 +180,22 @@ btnCharger.addEventListener('click', async () => {
     }
 
     btnCharger.disabled = true;
-    besoinsContainer.innerHTML = '<p class="text-center"><i class="spinner-border spinner-border-sm me-2"></i>Chargement...</p>';
+    besoinsContainer.innerHTML = '<p class="text-center"><i class="spinner-border spinner-border-sm me-2"></i>Chargement des besoins...</p>';
 
     try {
-        const resp = await fetch(`/simulation/besoins?id_ville=${idVille}`);
+        const url = `/simulation/besoins?id_ville=${idVille}`;
+        console.log('🔍 Appel endpoint:', url);
+        
+        const resp = await fetch(url);
+        console.log('📦 Réponse reçue:', resp.status);
+        
         const data = await resp.json();
+        console.log('✅ Données:', data);
         besoinsData = data;
 
-        if (!data.length) {
-            besoinsContainer.innerHTML = '<p class="text-warning text-center py-4">Aucun besoin restant pour cette ville</p>';
+        if (!data || !data.length) {
+            besoinsContainer.innerHTML = '<p class="text-warning text-center py-4"><i class="bi bi-exclamation-circle me-2"></i>Aucun besoin restant pour cette ville</p>';
+            btnCharger.disabled = false;
             return;
         }
 

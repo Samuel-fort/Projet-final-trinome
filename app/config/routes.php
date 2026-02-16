@@ -75,6 +75,7 @@ $router->group('', function(Router $router) {
 
     // ── ACHATS (NOUVEAU) ──────────────────────────────────────────────────────
     $router->get('/achats',                        [AchatController::class, 'index']);
+    $router->get('/achats/create',                 [AchatController::class, 'create']);
     $router->get('/achats/calculer',               [AchatController::class, 'calculer']);
     $router->post('/achats/store',                 [AchatController::class, 'store']);
     $router->post('/achats/@id:[0-9]+/delete',     [AchatController::class, 'delete']);

@@ -38,7 +38,7 @@ class AchatModel extends BaseModel
      */
     public function findAll(): array
     {
-        return $this->db->fetchAll("
+        $result = $this->db->fetchAll("
             SELECT a.*, 
                    tb.nom AS type_nom, 
                    tb.unite,
@@ -53,6 +53,9 @@ class AchatModel extends BaseModel
             LEFT JOIN donateur d ON dn.id_donateur = d.id_donateur
             ORDER BY a.date_achat DESC
         ");
+        
+        // Convertir Collection en array
+        return json_decode(json_encode($result), true);
     }
 
     /**

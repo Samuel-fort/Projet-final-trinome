@@ -34,6 +34,8 @@ class SimulationModel extends BaseModel
         ", [$idSimulation]);
 
         if ($sim) {
+            // Convertir Collection en array
+            $sim = json_decode(json_encode($sim), true);
             $sim['details'] = json_decode($sim['details_json'], true);
         }
 
@@ -93,7 +95,7 @@ class SimulationModel extends BaseModel
      */
     public function getSimulationsEnCours(): array
     {
-        return $this->db->fetchAll("
+        $result = $this->db->fetchAll("
             SELECT s.*, 
                    CONCAT(COALESCE(d.prenom,''), ' ', COALESCE(d.nom,'')) AS donateur_nom
             FROM simulation s
@@ -102,5 +104,8 @@ class SimulationModel extends BaseModel
             WHERE s.statut = 'en_cours'
             ORDER BY s.date_creation DESC
         ");
+        
+        // Convertir Collection en array
+        return json_decode(json_encode($result), true);
     }
 }

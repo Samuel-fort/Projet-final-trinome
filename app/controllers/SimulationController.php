@@ -79,7 +79,26 @@ class SimulationController extends BaseController
             ORDER BY tb.nom
         ", [$idVille]);
 
-        $this->app->json($besoins);
+        // Convertir Collection en array
+        $besoinsArray = json_decode(json_encode($besoins), true);
+        
+        // Garder seulement les champs pertinents
+        $clean = array_map(function($b) {
+            return [
+                'id_besoin' => $b['id_besoin'],
+                'id_ville' => $b['id_ville'],
+                'id_type_besoin' => $b['id_type_besoin'],
+                'quantite_demandee' => $b['quantite_demandee'],
+                'quantite_recue' => $b['quantite_recue'],
+                'quantite_manquante' => $b['quantite_manquante'],
+                'type_nom' => $b['type_nom'],
+                'unite' => $b['unite'],
+                'prix_unitaire' => $b['prix_unitaire'],
+                'valeur_manquante' => $b['valeur_manquante'],
+            ];
+        }, $besoinsArray);
+
+        $this->app->json($clean);
     }
 
     /**
@@ -113,6 +132,9 @@ class SimulationController extends BaseController
                 $this->app->json(['error' => 'Don introuvable']);
                 return;
             }
+
+            // Convertir Collection en array
+            $budgetDisponible = json_decode(json_encode($budgetDisponible), true);
 
             $budget = (float)$budgetDisponible['disponible'];
             $achatsDetails = [];
