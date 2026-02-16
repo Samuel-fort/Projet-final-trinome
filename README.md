@@ -1,110 +1,228 @@
-# Flight PHP Skeleton App
+# BNGRC - Système de Gestion des Dons pour Sinistrés
 
-Use this skeleton application to quickly setup and start working on a new Flight PHP application. This application uses the latest version of Flight PHP v3.
+Bienvenue dans le projet **BNGRC** (Bureau National de Gestion des Ressources Catastrophe), un système web complet de gestion des dons et distributions pour les sinistrés. Ce projet est développé avec **Flight PHP** et **MySQL**.
 
-This skeleton is designed to be AI-friendly out of the box, with predefined instructions files for popular AI coding assistants such as GitHub Copilot, Cursor, and Windsurf. This helps streamline development and ensures your project is ready for modern, AI-assisted workflows.
+## À propos du projet
 
-This skeleton application was built for Composer. You also could download a zip of this repo, downloading a zip of the [flightphp/core](https://github.com/flightphp/core) repo, and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/# FlightPHP Skeleton Project Instructions
+BNGRC est une application web moderne et responsive qui permet de :
 
-This document provides guidelines and best practices for structuring and developing a project using the FlightPHP framework.
+- **Gérer les donations** : Enregistrer les dons reçus (nature, matériaux, argent)
+- **Suivre les distributions** : Affecter les dons aux villes et besoins identifiés
+- **Planifier les achats** : Simuler et valider les achats avec les donations en argent
+- **Analyser les données** : Visualiser la couverture des besoins et l'état des distributions
+- **Gérer les entités** : Villes, donateurs, types de besoins, distributions
 
-## Installation
+## Équipe de développement
 
-Run this command from the directory in which you want to install your new Flight PHP application. (this will require PHP 7.4 or newer)
+| Nom | Rôle | Email |
+|-----|------|-------|
+| **Voara** (004587) | Disposition du code & Architecture | voaraandriantsitohaina30@gmail.com |
+| **Samuel** (003889) | Debug & Interface utilisateur | samuelfortunat4@gmail.com |
+| **Lionel** (003972) | Développement serveur & BD | lionelmendrika8@gmail.com |
 
+## Technologies utilisées
+
+- **Backend** : PHP 8.3 + Flight PHP framework
+- **Base de données** : MySQL 5.7 (via LAMPP)
+- **Frontend** : Bootstrap 5.3.2, CSS personnalisé
+- **Gestion des paquets** : Composer
+- **Architecture** : MVC (Model-View-Controller)
+- **Sécurité** : Content-Security-Policy, Headers de sécurité
+
+## Installation et démarrage
+
+### Prérequis
+
+- PHP 8.3 ou plus récent
+- MySQL 5.7 ou plus récent
+- Composer
+- LAMPP (recommandé pour développement local)
+
+### Installation
+
+1. **Cloner le projet**
 ```bash
-composer create-project flightphp/skeleton cool-project-name
+git clone https://github.com/Samuel-fort/Projet-final-trinome.git
+cd Projet-final-trinome
 ```
 
-Replace `cool-project-name` with the desired directory name for your new application.
-
-After you create the project, make sure you go to the `app/config/config.php` and `app/config/services.php` and uncomment the lines related to the database you want to use before you get started.
-
-> _Tip: This skeleton includes configuration files for AI coding assistants (Copilot, Cursor, Windsurf) to help you get the most out of AI-driven development tools from the start._
-
-### Robust Setup of the Application
-
-This skeleton will come with 2 versions of a starter application. The robust version is a fully structured application meant for projects that you anticipate will be a bigger size. This is setup with object oriented programming in mind so that it is easier to unit test and scale your project with multiple developers (or make it easier on yourself).
-
-The robust version adds an `app/` directory where everything has a basic structure. This is how this skeleton is configured by default.meant
-
-### Simple Setup of the Application
-
-This is basically a single file application. The only exception to this is the config file which is still in the `app/config/` directory. This is a good starting point for smaller projects or projects that you don't anticipate will grow much.
-
-To use the simple version, you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the `config.php` file of course).
-
-With the simple setup, there is two very import security steps to be aware of. 
-- **DO NOT SAVE SENSITIVE CREDENTIALS TO THE `index.php` FILE**. 
-- **DO NOT COMMIT ANY TYPE OF SENSITIVE CREDENTIALS TO YOUR REPOSITORY**.
-
-This is what the config file is for. If you need to save sensitive credentials, save them to the config file and then reference them in the `index.php` file.
-
-## Running the Application
-
-### No Dependency Setup
-
-To run the application in development, you can run these commands 
-
+2. **Installer les dépendances**
 ```bash
-cd cool-project-name
-composer start
+composer install
 ```
 
-After that, open `http://localhost:8000` in your browser.
-
-__Note: If you run into an error similar to this `Failed to listen on localhost:8000 (reason: Address already in use)` then you'll need to change the port that the application is running on. You can do this by editing the `composer.json` file and changing the port in the `scripts.start` key.__
-
-### Docker Setup
-
-You can [install Docker](https://docs.docker.com/engine/install/) and use `docker-compose` to run the app with `docker`, so you can run these commands:
+3. **Configurer la base de données**
 ```bash
-cd cool-project-name
+mysql -u root -S /opt/lampp/var/mysql/mysql.sock bngrc_dons < database.sql
+```
+
+4. **Configurer l'environnement** (si nécessaire)
+Éditez `.env` avec vos paramètres locaux
+
+5. **Démarrer le serveur**
+```bash
+php -S localhost:8000 -t public/
+```
+
+6. **Accéder à l'application**
+Ouvrez votre navigateur sur `http://localhost:8000`
+
+### Avec Docker (optionnel)
+
+```bash
 docker-compose up -d
-# or if a newer version of docker
-docker compose up -d
 ```
-After that, open `http://localhost:8000` in your browser.
 
-### Vagrant Setup
-You can [install Vagrant](https://vagrantup.com/download) and a provider like [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and use simple run the following command to bring up an environment with PHP/MariaDB already setup based on [n0nag0n/firefly](https://github.com/n0nag0n/firefly)
+Puis accédez à `http://localhost:8000`
+
+### Avec Vagrant (optionnel)
 
 ```bash
-cd cool-project-name
 vagrant up
 ```
 
-After that, open `http://localhost:8000` in your browser.
-
-## Project Structure
-
-This skeleton is organized for clarity and maintainability, and is also structured to be easily navigable by AI coding assistants. The following layout is recommended:
+## Structure du projet
 
 ```
-project-root/
-│
-├── app/                # Application-specific code
-│   ├── controllers/    # Route controllers (e.g., HomeController.php)
-│   ├── middlewares/    # Custom middleware classes/functions
-│   ├── models/         # Data models (if needed)
-│   ├── utils/          # Utility/helper functions
-│   ├── views/          # View templates (if using)
-│   └── commands/       # Custom CLI commands for Runway
-│
-├── public/             # Web root (index.php, assets, etc.)
-│
-├── config/             # Configuration files (database, app settings, routes)
-│
-├── vendor/             # Composer dependencies
-│
-├── tests/              # Unit and integration tests
-│
-├── composer.json       # Composer config
-│
-└── README.md           # Project overview
+Projet-final-trinome/
+├── app/
+│   ├── commands/              # Commandes CLI
+│   ├── config/                # Routes, services, configuration
+│   ├── controllers/           # Contrôleurs MVC
+│   │   ├── DashboardController.php
+│   │   ├── DistributionController.php
+│   │   ├── SimulationController.php
+│   │   ├── AchatController.php
+│   │   └── ... (autres contrôleurs)
+│   ├── middlewares/           # Middleware de sécurité
+│   ├── models/                # Modèles de données
+│   ├── utils/                 # Utilitaires (DataConverter)
+│   └── views/                 # Templates PHP
+│       ├── components/        # Composants réutilisables
+│       ├── dashboard/         # Pages du tableau de bord
+│       ├── achat/             # Module d'achats
+│       ├── simulation/        # Module de simulation
+│       └── ... (autres vues)
+├── public/
+│   ├── index.php              # Point d'entrée
+│   ├── css/                   # Styles personnalisés
+│   ├── bootstrap/             # Bootstrap offline
+│   └── favicon.ico
+├── vendor/                    # Dépendances Composer
+├── database.sql               # Schéma de la base de données
+├── composer.json              # Configuration Composer
+├── docker-compose.yml         # Configuration Docker
+├── Vagrantfile                # Configuration Vagrant
+├── todolist.md                # Suivi des tâches
+└── README.md                  # Ce fichier
 ```
 
-> _Predefined instructions for AI tools are included in this skeleton, making it easier for AI assistants to understand and help you with this structure._
+## Fonctionnalités principales
 
-## Do it!
-That's it! Go build something flipping sweet!
+### Tableau de bord (Dashboard)
+- Vue d'ensemble des statistiques
+- Cartes de synthèse (dons totaux, besoins, distributions)
+- Graphiques de progression
+- Besoins par ville avec taux de couverture
+
+### Gestion des entités
+- **Villes** : Listing, création, édition, suppression
+- **Types de besoins** : 3 catégories (Nature, Matériaux, Argent)
+- **Donateurs** : Enregistrement et gestion
+- **Dons** : Suivi des donations avec statut
+- **Distributions** : Affectation dynamique des dons
+
+### Module de simulation
+- Planification des achats avec donations en argent
+- Calcul automatique des frais (10%)
+- Validation du budget
+- Chargement dynamique des besoins par ville
+
+### Module d'achats
+- Formulaire de création d'achats
+- Calcul base + frais
+- Validation du budget disponible
+- Listing et suppression
+
+## Documentation supplémentaire
+
+- **[Todolist](todolist.md)** : Suivi des tâches par personne et statut
+- **[Schema Base de données](database.sql)** : Structure complète des tables
+- **Routes API** : Endpoints AJAX pour les données dynamiques
+
+## État du projet
+
+**Complétude :** ~95%
+
+**Statut :** Production-Ready pour MVP
+
+**Dernière mise à jour :** 16 Février 2026
+
+### Tâches complétées
+- Architecture MVC fonctionnelle
+- Interface responsive avec Bootstrap
+- Toutes les fonctionnalités CRUD
+- Dashboard avec statistiques
+- Modules simulation et achats
+- Sécurité (CSP, headers)
+
+### À faire
+- Authentification utilisateur complète
+- Rôles et permissions
+- Export PDF/Excel
+- Tests automatisés
+- Documentation API Swagger
+
+## Configuration de la base de données
+
+La base de données `bngrc_dons` contient les tables suivantes :
+
+| Table | Description | Enregistrements |
+|-------|-------------|-----------------|
+| `ville` | Villes sinistrées | 5 |
+| `categorie_besoin` | Catégories de besoins | 3 |
+| `type_besoin` | Types de besoins détaillés | 11 |
+| `donateur` | Donateurs enregistrés | 4+ |
+| `don` | Donations reçues | 9+ |
+| `besoin_ville` | Besoins par ville | 14+ |
+| `distribution` | Distributions effectuées | 1+ |
+| `simulation` | Simulations en cours | Var |
+| `achat` | Achats validés | Var |
+| `config_frais` | Configuration (frais 10%) | 1 |
+
+## Déploiement
+
+### Pour développement local
+```bash
+php -S localhost:8000 -t public/
+```
+
+### Pour production
+1. Configurer un serveur web (Apache/Nginx)
+2. Mettre à jour la configuration du VirtualHost
+3. Protéger les fichiers sensibles (.env, config.php)
+4. Mettre à jour le CSP si nécessaire
+5. Configurer la base de données en production
+
+## Sécurité
+
+- Content-Security-Policy (CSP) configurée
+- Headers de sécurité activés
+- Referrer-Policy stricte
+- Validation des données côté serveur
+- Protection CSRF via middleware
+
+## Support et contact
+
+Pour toute question ou problème :
+- **Email équipe** : voara.etu004587@gmail.com
+- **Repository GitHub** : [Samuel-fort/Projet-final-trinome](https://github.com/Samuel-fort/Projet-final-trinome)
+- **Consulter** : [Todolist](todolist.md) pour l'état des tâches
+
+## Licence
+
+Ce projet est développé par VSL.
+
+---
+
+**Bon développement! 🚀**
