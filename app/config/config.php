@@ -67,10 +67,10 @@ return [
 	 **************************************/
 	'database' => [
 		// ⚠️ MODIFIER ces valeurs selon votre serveur ITU
-		'host'     => 'localhost',
+		'host'     => '127.0.0.1',
 		'dbname'   => 'bngrc_dons',
-		'user'     => 'root',         // Changer selon votre config
-		'password' => '',             // Changer selon votre config
+		'user'     => 'root',
+		'password' => '',
 	],
 
 	// Google OAuth Credentials

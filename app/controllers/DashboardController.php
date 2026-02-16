@@ -26,6 +26,7 @@ class DashboardController extends BaseController
             FROM besoin_ville bv
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
         ");
+        $totalBesoins = $totalBesoins ? json_decode(json_encode($totalBesoins), true) : ['valeur_besoins' => 0, 'valeur_couverte' => 0, 'nb_besoins' => 0];
 
         $this->render('dashboard/index', [
             'dashboardVilles' => $dashboardVilles,

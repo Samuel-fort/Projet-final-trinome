@@ -39,7 +39,7 @@ class DonModel extends BaseModel
 
     public function getStats(): array
     {
-        return $this->db->fetchRow("
+        $result = $this->db->fetchRow("
             SELECT
                 COUNT(*) AS nb_dons,
                 COALESCE(SUM(dn.quantite * tb.prix_unitaire), 0) AS valeur_totale,
@@ -49,7 +49,9 @@ class DonModel extends BaseModel
                 ), 0) AS valeur_distribuee
             FROM don dn
             JOIN type_besoin tb ON dn.id_type_besoin = tb.id_type_besoin
-        ") ?: ['nb_dons' => 0, 'valeur_totale' => 0, 'valeur_distribuee' => 0];
+        ");
+        
+        return $result ? json_decode(json_encode($result), true) : ['nb_dons' => 0, 'valeur_totale' => 0, 'valeur_distribuee' => 0];
     }
 
     public function create(int $idDonateur = null, int $idTypeBesoin, float $quantite): bool

@@ -79,8 +79,8 @@ if (Debugger::$showBar === true && php_sapi_name() !== 'cli') {
  **********************************************/
 // Uncomment and configure the following for your database:
 
-// MySQL
-$dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
+// MySQL avec LAMPP/XAMPP
+$dsn = 'mysql:unix_socket=/opt/lampp/var/mysql/mysql.sock;dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
 
 // Register Flight::db() service
 $pdoClass = (Debugger::$showBar === true) ? PdoQueryCapture::class : PdoWrapper::class;

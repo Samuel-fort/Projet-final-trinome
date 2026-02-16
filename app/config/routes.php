@@ -7,6 +7,7 @@ use app\controllers\DonateurController;
 use app\controllers\DonController;
 use app\controllers\DistributionController;
 use app\controllers\TypeBesoinController;
+use app\controllers\TodolistController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -16,10 +17,13 @@ use flight\net\Router;
  * @var Engine $app
  */
 
-$router->group('', function(Router $router) use ($app) {
+$router->group('', function(Router $router) {
 
     // ── DASHBOARD ─────────────────────────────────────────────────────────────
     $router->get('/', [DashboardController::class, 'index']);
+
+    // ── TODOLIST ──────────────────────────────────────────────────────────────
+    $router->get('/todolist', [TodolistController::class, 'index']);
 
     // ── VILLES ────────────────────────────────────────────────────────────────
     $router->get('/villes',                        [VilleController::class, 'index']);
