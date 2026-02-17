@@ -225,4 +225,4 @@ Ce projet est développé par VSL.
 
 ---
 
-**Bon développement! 🚀**
+**Bon développement! **
