@@ -72,15 +72,18 @@ $router->group('', function(Router $router) {
     $router->get('/distributions/besoins',                  [DistributionController::class, 'getBesoins']);
     $router->post('/distributions/store',                   [DistributionController::class, 'store']);
     $router->post('/distributions/@id:[0-9]+/delete',       [DistributionController::class, 'delete']);
+    
+    // NOUVEAU V3 : Distribution automatique
+    $router->post('/distributions/simuler-auto',            [DistributionController::class, 'simulerAuto']);
+    $router->post('/distributions/valider-simulation',      [DistributionController::class, 'validerSimulation']);
 
-    // ── ACHATS (NOUVEAU) ──────────────────────────────────────────────────────
+    // ── ACHATS (V2) ───────────────────────────────────────────────────────────
     $router->get('/achats',                        [AchatController::class, 'index']);
-    $router->get('/achats/create',                 [AchatController::class, 'create']);
     $router->get('/achats/calculer',               [AchatController::class, 'calculer']);
     $router->post('/achats/store',                 [AchatController::class, 'store']);
     $router->post('/achats/@id:[0-9]+/delete',     [AchatController::class, 'delete']);
 
-    // ── SIMULATION (NOUVEAU) ──────────────────────────────────────────────────
+    // ── SIMULATION (V2) ───────────────────────────────────────────────────────
     $router->get('/simulation',                    [SimulationController::class, 'index']);
     $router->get('/simulation/besoins',            [SimulationController::class, 'getBesoinsVille']);
     $router->post('/simulation/simuler',           [SimulationController::class, 'simuler']);

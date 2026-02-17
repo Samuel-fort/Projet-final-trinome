@@ -59,7 +59,6 @@ class DistributionController extends BaseController
             $this->getModel()->distribuer($idDon, $idVille, $idBesoin, $quantite);
             $this->redirect('/distributions?success=1');
         } catch (\Exception $e) {
-            // Passer le message d'erreur via session ou query string
             $this->redirect('/distributions?error=' . urlencode($e->getMessage()));
         }
     }
@@ -68,5 +67,61 @@ class DistributionController extends BaseController
     {
         $this->getModel()->delete($id);
         $this->redirect('/distributions?deleted=1');
+    }
+
+    /**
+     * ============================================================================
+     * NOUVELLES MÉTHODES POUR LA DISTRIBUTION AUTOMATIQUE (V3)
+     * ============================================================================
+     */
+
+    /**
+     * Simule une distribution automatique (AJAX)
+     */
+    public function simulerAuto(): void
+    {
+        $request = $this->app->request();
+        $idDon = (int)($request->data->id_don ?? 0);
+        $mode = $request->data->mode ?? '';
+
+        if (!$idDon || !in_array($mode, ['anciennete', 'demande_min', 'proportionnalite'])) {
+            $this->app->json([
+                'success' => false,
+                'error' => 'Paramètres invalides',
+            ]);
+            return;
+        }
+
+        try {
+            $resultat = $this->getModel()->simulerDistributionAuto($idDon, $mode);
+            $this->app->json($resultat);
+        } catch (\Exception $e) {
+            $this->app->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Valide une simulation et enregistre les distributions
+     */
+    public function validerSimulation(): void
+    {
+        $request = $this->app->request();
+        $idDon = (int)($request->data->id_don ?? 0);
+        $distributions = $request->data->distributions ?? [];
+
+        if (!$idDon || empty($distributions)) {
+            $this->redirect('/distributions?error=simulation_invalide');
+            return;
+        }
+
+        try {
+            $this->getModel()->validerSimulation($idDon, $distributions);
+            $this->redirect('/distributions?success=simulation_validee');
+        } catch (\Exception $e) {
+            $this->redirect('/distributions?error=' . urlencode($e->getMessage()));
+        }
     }
 }
