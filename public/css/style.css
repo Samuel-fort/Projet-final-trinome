@@ -585,6 +585,22 @@ footer .btn:hover {
 }
 
 /* ========================================
+   CUSTOM NAV TABS
+   ======================================== */
+
+.nav-link.nav-tabs-dark {
+    color: #000 !important;
+}
+
+.nav-link.nav-tabs-dark:hover {
+    color: #000 !important;
+}
+
+.nav-link.nav-tabs-dark.active {
+    color: var(--bngrc-accent) !important;
+}
+
+/* ========================================
    ANIMATIONS
    ======================================== */
 

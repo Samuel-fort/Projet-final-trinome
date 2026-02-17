@@ -40,12 +40,12 @@ $messages = [
 <!-- ONGLETS -->
 <ul class="nav nav-tabs mb-4" role="tablist">
     <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#manuelle">
+        <button class="nav-link active nav-tabs-dark" data-bs-toggle="tab" data-bs-target="#manuelle">
             <i class="bi bi-hand-index me-1"></i>Distribution manuelle
         </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#automatique">
+        <button class="nav-link nav-tabs-dark" data-bs-toggle="tab" data-bs-target="#automatique">
             <i class="bi bi-cpu me-1"></i>Distribution automatique
         </button>
     </li>
