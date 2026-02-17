@@ -65,6 +65,10 @@ class BesoinModel extends BaseModel
 
     public function delete(int $id): bool
     {
+        // First delete all distributions related to this besoin (foreign key constraint)
+        $this->db->runQuery("DELETE FROM distribution WHERE id_besoin = ?", [$id]);
+        
+        // Then delete the besoin_ville record
         $this->db->runQuery("DELETE FROM besoin_ville WHERE id_besoin = ?", [$id]);
         return true;
     }

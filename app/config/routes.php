@@ -27,8 +27,7 @@ $router->group('', function(Router $router) {
     $router->get('/dashboard/recap-data', [DashboardController::class, 'getRecapData']);
 
     // ── TODOLIST ──────────────────────────────────────────────────────────────
-    $router->get('/todolist', [TodolistController::class, 'index']);
-
+    $router->get('/todolist', [TodolistController::class, 'index']);    $router->post('/todolist/delete-all', [TodolistController::class, 'deleteAll']);
     // ── VILLES ────────────────────────────────────────────────────────────────
     $router->get('/villes',                        [VilleController::class, 'index']);
     $router->get('/villes/create',                 [VilleController::class, 'create']);

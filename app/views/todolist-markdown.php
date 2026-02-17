@@ -1,4 +1,23 @@
 <div class="todolist-container">
+    <!-- Button section -->
+    <div class="todolist-actions mb-3">
+        <form method="POST" action="/todolist/delete-all" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir tout effacer ? Cette action est irréversible.');">
+                <i class="bi bi-trash"></i> Tout effacer
+            </button>
+        </form>
+    </div>
+
+    <?php 
+    // Display success message if tasks were cleared
+    if (!empty($_GET['cleared'])) {
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+        echo '<i class="bi bi-check-circle"></i> Les tâches ont été supprimées avec succès.';
+        echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        echo '</div>';
+    }
+    ?>
+
     <?php 
     // Simple markdown to HTML conversion
     $html = $this->simpleMarkdownToHtml($content ?? '');
@@ -7,6 +26,12 @@
 </div>
 
 <style>
+.todolist-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
 .todolist-container {
     max-width: 1000px;
     margin: 2rem auto;
