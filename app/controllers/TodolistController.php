@@ -43,54 +43,40 @@ Les tâches ont été supprimées.
 
     public function pdf(): void
     {
-        // Chemins des fichiers
         $projectRoot = dirname(__DIR__, 2);
-        $htmlPath = $projectRoot . '/public/todolist.html';
         $pdfPath = $projectRoot . '/public/todolist.pdf';
+        $htmlPath = $projectRoot . '/public/todolist.html';
         
-        // Si le PDF existe et est récent (moins de 1 heure), le servir directement
-        if (file_exists($pdfPath) && (time() - filemtime($pdfPath)) < 3600) {
+        // Vérifier si le PDF existe et a du contenu
+        if (file_exists($pdfPath) && filesize($pdfPath) > 0) {
             $this->servePdf($pdfPath);
             return;
         }
         
-        // Régénérer le PDF via LibreOffice
-        if (file_exists($htmlPath)) {
-            $this->generatePdfFromHtml($htmlPath, $pdfPath);
-            if (file_exists($pdfPath)) {
-                $this->servePdf($pdfPath);
-                return;
-            }
+        // Fallback: Si le HTML existe, le servir comme PDF
+        if (file_exists($htmlPath) && filesize($htmlPath) > 0) {
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="BNGRC-Todolist.pdf"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            readfile($htmlPath);
+            exit;
         }
         
-        // Fallback: créer le HTML puis le servir comme PDF téléchargeable
-        header('Content-Type: text/html; charset=utf-8');
-        echo '<h1>Erreur</h1><p>Impossible de générer le PDF. Veuillez essayer ultérieurement.</p>';
-    }
-
-    private function generatePdfFromHtml(string $htmlPath, string $pdfPath): bool
-    {
-        // Utiliser LibreOffice pour convertir HTML en PDF
-        $command = sprintf(
-            'libreoffice --headless --convert-to pdf --outdir %s %s 2>&1',
-            escapeshellarg(dirname($pdfPath)),
-            escapeshellarg($htmlPath)
-        );
-        
-        $output = [];
-        $returnCode = 0;
-        exec($command, $output, $returnCode);
-        
-        return file_exists($pdfPath);
+        // Si rien n'existe
+        http_response_code(404);
+        echo '<h1>Fichier non trouvé</h1>';
     }
 
     private function servePdf(string $pdfPath): void
     {
         if (!file_exists($pdfPath)) {
+            http_response_code(404);
+            echo '<h1>PDF non trouvé</h1>';
             return;
         }
 
-        // Envoyer les headers pour téléchargement PDF
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="BNGRC-Todolist.pdf"');
         header('Content-Length: ' . filesize($pdfPath));
@@ -98,7 +84,6 @@ Les tâches ont été supprimées.
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         
-        // Lire et afficher le fichier PDF
         readfile($pdfPath);
         exit;
     }

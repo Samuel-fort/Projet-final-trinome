@@ -28,6 +28,9 @@ $router->group('', function(Router $router) {
 
     // ── TODOLIST ──────────────────────────────────────────────────────────────
     $router->get('/todolist', [TodolistController::class, 'index']);
+    $router->get('/todolist/pdf', [TodolistController::class, 'pdf']);
+    $router->post('/todolist/delete-all', [TodolistController::class, 'deleteAll']);
+
 
     // ── VILLES ────────────────────────────────────────────────────────────────
     $router->get('/villes',                        [VilleController::class, 'index']);
