@@ -3,58 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BNGRC - Todolist</title>
+    <title>BNGRC - Todolist du Projet</title>
     <style>
         * { margin: 0; padding: 0; }
-        body {
-            font-family: Arial, sans-serif;
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            padding: 20px;
-            background: white;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        h1 {
+        h1 { 
             color: #1a73e8;
             border-bottom: 3px solid #1a73e8;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
             margin-bottom: 20px;
-            page-break-after: avoid;
+            font-size: 2em;
         }
         h2 {
             color: #2d5016;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #e8e8e8;
             margin-top: 30px;
             margin-bottom: 15px;
-            padding-bottom: 8px;
-            page-break-after: avoid;
+            padding-bottom: 10px;
         }
         h3 {
             color: #5f6368;
             margin-top: 20px;
             margin-bottom: 10px;
-            page-break-after: avoid;
         }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; page-break-inside: avoid; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f0f0f0; font-weight: bold; }
-        ul, ol { margin-left: 30px; margin-bottom: 10px; }
-        li { margin-bottom: 6px; }
-        pre { background-color: #f5f5f5; padding: 15px; border-radius: 4px; overflow-x: auto; border: 1px solid #ddd; margin: 10px 0; }
-        .meta { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #1a73e8; margin-bottom: 20px; }
-        footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; font-size: 12px; color: #666; text-align: center; }
-        @media print { body { padding: 0; } }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        ul {
+            margin-left: 25px;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #2d5016;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+        @media print {
+            body { padding: 20px; }
+            h1, h2, h3 { page-break-after: avoid; }
+            table { page-break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
-    <h1>BNGRC - Todolist du Projet</h1>
-    <div class="meta">
-        <p><strong>Projet:</strong> Système de Gestion des Dons pour Sinistrés</p>
-        <p><strong>Équipe:</strong> Voara (004587), Samuel (003889), Lionel (003972)</p>
-    </div>
-<h1>BNGRC - Todolist du Projet</h1><p>**Projet:** Système de Gestion des Dons pour Sinistrés</p><p>**Équipe:** Voara (004587), Samuel (003889), Lionel (003972)</p><hr><h2>Répartition des tâches</h2><p>**Lionel (003972):** Développement côté serveur</p><ul><li>Architecture PHP/Flight</li><li>Base de données MySQL</li><li>Logique métier et calculs</li><li>API endpoints et routing</li><li>Middleware de sécurité</li><p>**Samuel (003889):** Debug et affichage</p><li>Correction des bugs</li><li>Interface utilisateur</li><li>Styling et CSS</li><li>Tests et validation</li><li>Affichage des données</li><p>**Voara (004587):** Disposition du code</p><li>Structure MVC</li><li>Organisation des dossiers</li><li>Nomenclature et conventions</li><li>Documentation code</li><li>Configuration générale</li><hr></ul><h2>État d'avancement global</h2><p>**Complétude:** ~95%</p><ul><li>Architecture MVC fonctionnelle</li><li>Base de données structurée</li><li>Toutes les entités CRUD complètes</li><li>Interface utilisateur responsive</li><li>Sécurité et authentification</li><hr></ul><h2>Fonctionnalités complétées</h2><h3>Infrastructure & Configuration</h3><ul><li>OK (Lionel) Projet Flight PHP avec routing complet</li><li>OK (Lionel) Database MySQL avec LAMPP (socket Unix)</li><li>OK (Lionel) PdoWrapper pour gestion des requêtes</li><li>OK (Voara) Autoloading PSR-4 avec Composer</li><li>OK (Lionel) Configuration d'environnement (.env)</li><li>OK (Lionel) Middleware de sécurité (CSP, headers)</li></ul><h3>Interface Utilisateur (UI/UX)</h3><ul><li>OK (Voara) Layout principal avec header/footer</li><li>OK (Samuel) Navigation responsive (Bootstrap 5.3.2)</li><li>OK (Samuel) Styling personnalisé (600+ lignes CSS)</li><li>OK (Samuel) Icons Bootstrap Icons (CDN)</li><li>OK (Samuel) Google Fonts intégrées</li><li>OK (Samuel) Favicon créé</li><li>OK (Samuel) Design cohérent across all pages</li></ul><h3>Gestion des Villes</h3><ul><li>OK (Samuel) Listing des villes</li><li>OK (Lionel) Création nouvelle ville</li><li>OK (Lionel) Édition ville</li><li>OK (Lionel) Suppression ville</li><li>OK (Samuel) Validation des champs</li><li>OK (Voara) Pagination/tri</li></ul><h3>Gestion des Types de Besoin</h3><ul><li>OK (Samuel) Listing des types (3 catégories: Nature, Matériaux, Argent)</li><li>OK (Lionel) Création nouveau type</li><li>OK (Lionel) Édition type</li><li>OK (Lionel) Suppression type</li><li>OK (Lionel) Prix unitaire géré</li></ul><h3>Gestion des Donateurs</h3><ul><li>OK (Samuel) Listing des donateurs</li><li>OK (Lionel) Création nouveau donateur</li><li>OK (Lionel) Édition donateur</li><li>OK (Lionel) Suppression donateur</li><li>OK (Samuel) Support donations anonymes</li></ul><h3>Gestion des Dons</h3><ul><li>OK (Samuel) Listing dons avec status (En attente, Partiel, Distribué)</li><li>OK (Lionel) Création don</li><li>OK (Lionel) Suppression don</li><li>OK (Lionel) Calcul valeur automatique (quantité × prix unitaire)</li><li>OK (Samuel) Tracking quantité distribuée</li><li>OK (Lionel) 9 dons dans la base (5 produits + 4 donations argent)</li></ul><h3>Gestion des Distributions</h3><ul><li>OK (Samuel) Listing distributions avec détails</li><li>OK (Lionel) Création distribution avec dropdown dynamique</li><li>OK (Lionel) Dropdown "Besoin à satisfaire" chargé depuis DB</li><li>OK (Lionel) Suppression distribution avec cascade</li><li>OK (Samuel) Validation budget</li><li>OK (Lionel) 1 distribution test (12 kg Riz à Antsirabe)</li></ul><h3>Module Simulation</h3><ul><li>OK (Samuel) Interface de simulation (planning des achats)</li><li>OK (Lionel) Sélection don argent avec budget disponible</li><li>OK (Lionel) Sélection ville et chargement besoins dynamique</li><li>OK (Samuel) Quantité/prix input avec validation</li><li>OK (Samuel) Affichage budget disponible/restant</li><li>OK (Lionel) Calcul montant base + frais (10%)</li><li>OK (Samuel) Bouton "Charger les besoins" fonctionnel</li><li>OK (Samuel) Tableau des articles à acheter</li><li>OK (Lionel) Validation montant total ≤ budget</li></ul><h3>Module Achats</h3><ul><li>OK (Samuel) Formulaire "Nouvel achat"</li><li>OK (Lionel) Dropdown dons argent avec budget</li><li>OK (Samuel) Sélection type besoin</li><li>OK (Samuel) Input quantité avec validation</li><li>OK (Lionel) Calcul automatique base + frais (10%)</li><li>OK (Samuel) Listing des achats effectués</li><li>OK (Lionel) Suppression achat</li><li>OK (Samuel) Validation budget insuffisant</li></ul><h3>Dashboard & Analytics</h3><ul><li>OK (Samuel) Dashboard principal avec 4 stat cards</li><li>OK (Lionel) Statistiques globales (dons totaux, besoins, distributions)</li><li>OK (Samuel) Tableau besoins par ville avec taux couverture</li><li>OK (Samuel) Barres de progression</li><li>OK (Lionel) Page Récapitulation avec AJAX</li><li>OK (Lionel) Calcul pourcentages couverture</li><li>OK (Samuel) Besoins par ville</li><li>OK (Samuel) Besoins restants par catégorie</li></ul><h3>Base de données</h3><ul><li>OK (Lionel) Table `ville` (5 villes)</li><li>OK (Lionel) Table `categorie_besoin` (3 catégories)</li><li>OK (Lionel) Table `type_besoin` (11 types)</li><li>OK (Lionel) Table `donateur` (4 donateurs)</li><li>OK (Lionel) Table `don` (9 dons)</li><li>OK (Lionel) Table `besoin_ville` (14 besoins)</li><li>OK (Lionel) Table `distribution` (1 distribution test)</li><li>OK (Lionel) Table `simulation` (pour planification achats)</li><li>OK (Lionel) Table `achat` (pour achats réalisés)</li><li>OK (Lionel) Table `config_frais` (frais achat 10%)</li><li>OK (Lionel) Foreign keys et contraintes</li></ul><h3>Conversion de données</h3><ul><li>OK (Lionel) Collection → Array conversion (DataConverter utility)</li><li>OK (Lionel) JSON encoding pour API endpoints</li><li>OK (Samuel) Gestion NULL values dans calculs</li></ul><h3>Sécurité</h3><ul><li>OK (Lionel) Content-Security-Policy (CSP) configurée</li><li>OK (Lionel) Referrer-Policy stricte</li><li>OK (Lionel) Headers de sécurité</li><li>OK (Lionel) HTTPS allowed</li><li>OK (Lionel) LocalHost autorisé en dev</li><li>OK (Lionel) External CDNs whitelisted</li><hr></ul><h2>Travaux en cours / À finaliser</h2><h3>Améliorations possibles</h3><ul><li>A FAIRE (Lionel) Authentification utilisateur complète</li><li>A FAIRE (Voara) Rôles & permissions (Admin, Donateur, Viewer)</li><li>OK (Samuel) Export PDF/Excel pour rapports - Todolist en PDF disponible</li><li>A FAIRE (Samuel) Graphiques interactifs (Chart.js)</li><li>A FAIRE (Lionel) Notifications email</li><li>A FAIRE (Lionel) Historique des modifications (audit trail)</li><li>A FAIRE (Samuel) Recherche avancée multi-champs</li><li>A FAIRE (Voara) Pagination pour longs listes</li><li>A FAIRE (Samuel) Upload fichiers (photos, documents)</li><li>A FAIRE (Lionel) API REST complète (endpoints OpenAPI)</li></ul><h3>Tests</h3><ul><li>A FAIRE (Lionel) Unit tests PHP</li><li>A FAIRE (Lionel) Integration tests (PHPUnit)</li><li>A FAIRE (Samuel) E2E tests (Selenium/Cypress)</li><li>A FAIRE (Lionel) Test de charge</li><li>A FAIRE (Samuel) Accessibilité (WCAG)</li></ul><h3>Documentation</h3><ul><li>OK (Voara) README.md principal</li><li>OK (Voara) Code comments</li><li>A FAIRE (Lionel) Documentation API Swagger</li><li>A FAIRE (Samuel) Tutoriels vidéo</li><li>A FAIRE (Voara) Guide utilisateur</li><hr></ul><h2>Problèmes connus / Résolus</h2><h3>Résolus</h3><ul><li>OK (Lionel) PDOException #2002 - Socket Unix `/opt/lampp/var/mysql/mysql.sock`</li><li>OK (Lionel) Collection-to-array conversions (json_decode pattern)</li><li>OK (Lionel) Distribution form dropdown vide (besoin IDs hardcodés)</li><li>OK (Lionel) Simulation "Charger besoins" non-fonctionnel</li><li>OK (Lionel) CSP blocking external resources</li><li>OK (Samuel) Dashboard pourcentages affichant 0% (maintenant correct)</li><li>OK (Voara) Model file naming (PSR-4)</li><li>OK (Samuel) Tracy debugger bugs</li></ul><h3>Cosmétiques non-bloquants</h3><ul><li>OK (Lionel) Clés numérotées en doublon dans JSON (Flight Collection artifact)</li><li>OK (Samuel) Quelques CSS warnings de Bootstrap (non-blocking)</li><hr></ul><h2>Structure du projet</h2><p>```</p><p>/home/itu/Documents/Projet-final-trinome/</p><p>├── app/</p><p>│   ├── commands/           # CLI commands</p><p>│   ├── config/             # Routes, services, bootstrap</p><p>│   ├── controllers/        # MVC Controllers</p><p>│   ├── middlewares/        # Security middleware</p><p>│   ├── models/             # Database models</p><p>│   ├── utils/              # Utilities (DataConverter)</p><p>│   └── views/              # PHP templates</p><p>│       ├── components/     # header, footer</p><p>│       ├── dashboard/      # Dashboard pages</p><p>│       ├── achat/          # Purchase module</p><p>│       ├── simulation/     # Simulation module</p><p>│       └── ... (autres modules)</p><p>├── public/</p><p>│   ├── index.php           # Entry point</p><p>│   ├── css/style.css       # Custom styling</p><p>│   ├── bootstrap/          # Offline Bootstrap</p><p>│   └── favicon.ico</p><p>├── vendor/                 # Composer dependencies</p><p>├── database.sql            # Database schema</p><p>├── composer.json           # Dependencies</p><p>├── .env                    # Environment config</p><p>└── README.md               # Project documentation</p><p>```</p><hr><h2>Déploiement</h2><h3>Prérequis</h3><ul><li>PHP 8.3+</li><li>MySQL 5.7+</li><li>Composer</li><li>LAMPP (recommandé)</li></ul><h3>Installation locale</h3><p>```bash</p><p>cd /home/itu/Documents/Projet-final-trinome</p><p>composer install</p><p>php -S localhost:8000 -t public/</p><p>```</p><h3>Base de données</h3><p>```bash</p><p>mysql -u root -S /opt/lampp/var/mysql/mysql.sock bngrc_dons < database.sql</p><p>```</p><hr><h2>Statistiques de test</h2><p>**Données actuelles:**</p><ul><li>Villes: 5 (3 avec besoins)</li><li>Besoins: 14 (total demand: 14,595 unités)</li><li>Dons: 9 (5 produits + 4 donations argent = 50M+ Ar)</li><li>Distributions: 1 test (12 kg Riz)</li><li>Couverture: 0.08% (12/14,595 units reçus)</li><p>**Calculs de test:**</p><li>Total besoins: 52.45M Ar</li><li>Total dons: 73.6M Ar</li><li>Distribué: 24K Ar</li><li>Manquant: 52.4M Ar</li><hr></ul><h2>Notes développement</h2><h3>Technologie utilisée</h3><ul><li>Framework: Flight PHP</li><li>Database: MySQL 5.7</li><li>Frontend: Bootstrap 5.3.2, Custom CSS</li><li>Build: Composer (PSR-4 Autoloading)</li><li>Middleware: Security headers, CSP</li></ul><h3>Patterns utilisés</h3><ul><li>MVC (Model-View-Controller)</li><li>Service Container (Dependency Injection)</li><li>Collection-to-Array conversion</li><li>AJAX pour données dynamiques</li><li>Middleware pipeline</li></ul><h3>Prochains pas recommandés</h3><p>1. Ajouter authentification utilisateur</p><p>2. Implémenter rôles & permissions</p><p>3. Ajouter tests unitaires</p><p>4. Créer API REST endpoints</p><p>5. Ajouter notifications email</p><p>6. Mettre en place search avancée</p><p>7. Ajouter export PDF</p><hr><h2>Checklist de fin de sprint</h2><ul><li>OK (Lionel/Samuel) Tous les CRUD créés</li><li>OK (Samuel) UI/UX responsive fonctionnelle</li><li>OK (Lionel) Base de données structurée</li><li>OK (Lionel) Routes configurées</li><li>OK (Lionel) Sécurité middleware</li><li>OK (Lionel) Calculs pourcentages</li><li>OK (Lionel) Conversion données propre</li><li>OK (Samuel) Dashboard complet</li><li>OK (Samuel) Tests manuels passés</li><li>A FAIRE (Lionel) Documentation API</li><li>A FAIRE (Lionel) Tests automatisés</li><li>A FAIRE (Lionel/Samuel) Déploiement production</li><hr></ul>
-    <footer>
-        <p>BNGRC - Système de Gestion des Dons pour Sinistrés</p>
-        <p>Équipe: Voara (004587), Samuel (003889), Lionel (003972)</p>
-    </footer>
+<h1>BNGRC - Todolist du Projet</h1><strong>Projet:<strong> Système de Gestion des Dons pour Sinistrés<strong>Équipe:<strong> Voara (004587), Samuel (003889), Lionel (003972)<hr><h2>Répartition des tâches</h2><tr><td>Personne</td><td>Rôle</td></tr><hr><h2>Fonctionnalités complétées ✓</h2><h3>Infrastructure</h3><ul><li>✓ Projet Flight PHP avec routing complet</li><li>✓ Database MySQL avec 10 tables et foreign keys</li><li>✓ PdoWrapper pour requêtes sécurisées</li><li>✓ Autoloading PSR-4 avec Composer</li><li>✓ Middleware de sécurité (CSP, headers)</li><li>✓ Configuration d'environnement</li></ul><h3>Interface utilisateur</h3><ul><li>✓ Layout responsive Bootstrap 5.3.2</li><li>✓ Navigation principale avec header/footer</li><li>✓ CSS personnalisé cohérent</li><li>✓ Icons intégrées</li><li>✓ Design moderne et fonctionnel</li></ul><h3>Gestion des données (CRUD complets)</h3><ul><li>✓ Villes (5 entrées)</li><li>✓ Types de besoins (11 types, 3 catégories)</li><li>✓ Donateurs (4 entrées)</li><li>✓ Dons (9 entrées: produits + donations argent)</li><li>✓ Besoins par ville (14 entrées)</li><li>✓ Distributions (cascade delete configuré)</li><li>✓ Achats et Simulations</li></ul><h3>Modules spécialisés</h3><ul><li>✓ Dashboard avec statistiques et graphiques</li><li>✓ Module Simulation pour planifier les achats</li><li>✓ Module Achats avec calcul automatique (frais 10%)</li><li>✓ Récapitulation avec taux de couverture</li><li>✓ Todolist exportable en PDF</li></ul><hr><h2>Travaux restants (optionnels)</h2><tr><td>Tâche</td><td>Priorité</td></tr><tr><td>Authentification utilisateur</td><td>Basse</td></tr><tr><td>Rôles & permissions</td><td>Basse</td></tr><tr><td>Graphiques interactifs</td><td>Moyenne</td></tr><tr><td>Notifications email</td><td>Basse</td></tr><tr><td>Recherche avancée</td><td>Basse</td></tr><tr><td>Tests automatisés</td><td>Moyenne</td></tr><tr><td>Documentation API</td><td>Basse</td></tr><hr><h2>Points clés de la base de données</h2><strong>Tables principales:<strong><ul><li>`ville` - Localités</li><li>`categorie_besoin` - Catégories (Nature, Matériaux, Argent)</li><li>`type_besoin` - Types de besoins avec prix unitaire</li><li>`donateur` - Contributeurs</li><li>`don` - Dons effectués avec suivi quantité</li><li>`besoin_ville` - Besoins locaux</li><li>`distribution` - Distributions réalisées</li><li>`achat` - Achats simulés/réalisés</li></ul><strong>Contraintes appliquées:<strong><ul><li>Foreign keys sécurisées</li><li>Cascade delete pour distributions</li><li>Validations prix/quantités</li></ul><hr><h2>Tests et validation</h2><strong>Données de test:<strong><ul><li>5 villes avec 14 besoins total</li><li>9 dons (produits + donations argent > 70M Ar)</li><li>Dépense test: 12 kg Riz distribué</li></ul><strong>Fonctionnement vérifié:<strong><ul><li>✓ Tous les CRUD opérationnels</li><li>✓ Calculs automatiques fonctionnels</li><li>✓ Dashboard et statistiques correctes</li><li>✓ Sécurité headers appliquée</li><li>✓ Export PDF de la todolist</li></ul><hr>
 </body>
 </html>
