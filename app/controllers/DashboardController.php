@@ -15,11 +15,12 @@ class DashboardController extends BaseController
         // Statistiques sur les besoins
         $totalBesoinsData = $this->db()->fetchRow("
             SELECT 
-                COUNT(*) AS nb_besoins,
-                SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_besoins,
-                COALESCE(SUM(bv.quantite_recue * tb.prix_unitaire), 0) AS valeur_couverte
+                COUNT(DISTINCT bv.id_besoin) AS nb_besoins,
+                COALESCE(SUM(bv.quantite_demandee * tb.prix_unitaire), 0) AS valeur_besoins,
+                COALESCE(SUM(COALESCE(dist.quantite_attribuee, 0) * tb.prix_unitaire), 0) AS valeur_couverte
             FROM besoin_ville bv
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            LEFT JOIN distribution dist ON bv.id_besoin = dist.id_besoin
         ");
 
         // Convertir en array si c'est une Collection
@@ -47,10 +48,11 @@ class DashboardController extends BaseController
                 v.region,
                 COUNT(bv.id_besoin) AS nb_besoins,
                 COALESCE(SUM(bv.quantite_demandee * tb.prix_unitaire), 0) AS valeur_besoins,
-                COALESCE(SUM(bv.quantite_recue * tb.prix_unitaire), 0) AS valeur_recue
+                COALESCE(SUM(COALESCE(dist.quantite_attribuee, 0) * tb.prix_unitaire), 0) AS valeur_recue
             FROM ville v
             LEFT JOIN besoin_ville bv ON v.id_ville = bv.id_ville
             LEFT JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            LEFT JOIN distribution dist ON bv.id_besoin = dist.id_besoin
             GROUP BY v.id_ville, v.nom_ville, v.region
             ORDER BY v.nom_ville
         ");
@@ -82,13 +84,14 @@ class DashboardController extends BaseController
             SELECT 
                 COUNT(DISTINCT v.id_ville) AS nb_villes,
                 COUNT(DISTINCT bv.id_besoin) AS nb_besoins_total,
-                COUNT(DISTINCT CASE WHEN bv.quantite_recue >= bv.quantite_demandee THEN bv.id_besoin END) AS nb_besoins_satisfaits,
+                COUNT(DISTINCT CASE WHEN COALESCE(SUM(dist.quantite_attribuee), 0) >= bv.quantite_demandee THEN bv.id_besoin END) AS nb_besoins_satisfaits,
                 SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_totale_besoins,
-                SUM(bv.quantite_recue * tb.prix_unitaire) AS valeur_totale_recue,
-                SUM((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS valeur_totale_manquante
+                COALESCE(SUM(COALESCE(dist.quantite_attribuee, 0) * tb.prix_unitaire), 0) AS valeur_totale_recue,
+                SUM((bv.quantite_demandee - COALESCE(SUM(dist.quantite_attribuee), 0)) * tb.prix_unitaire) AS valeur_totale_manquante
             FROM besoin_ville bv
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
             JOIN ville v ON bv.id_ville = v.id_ville
+            LEFT JOIN distribution dist ON bv.id_besoin = dist.id_besoin
         ");
         $stats = DataConverter::toArray($statsData);
 
@@ -99,12 +102,13 @@ class DashboardController extends BaseController
                 v.nom_ville,
                 COUNT(bv.id_besoin) AS nb_besoins,
                 SUM(bv.quantite_demandee * tb.prix_unitaire) AS montant_total,
-                SUM(bv.quantite_recue * tb.prix_unitaire) AS montant_satisfait,
-                SUM((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS montant_restant,
-                ROUND(100 * SUM(bv.quantite_recue * tb.prix_unitaire) / NULLIF(SUM(bv.quantite_demandee * tb.prix_unitaire), 0), 2) AS pourcentage_satisfait
+                COALESCE(SUM(COALESCE(dist.quantite_attribuee, 0) * tb.prix_unitaire), 0) AS montant_satisfait,
+                COALESCE(SUM((bv.quantite_demandee - COALESCE(dist.quantite_attribuee, 0)) * tb.prix_unitaire), 0) AS montant_restant,
+                ROUND(100 * COALESCE(SUM(COALESCE(dist.quantite_attribuee, 0) * tb.prix_unitaire), 0) / NULLIF(SUM(bv.quantite_demandee * tb.prix_unitaire), 0), 2) AS pourcentage_satisfait
             FROM ville v
             LEFT JOIN besoin_ville bv ON v.id_ville = bv.id_ville
             LEFT JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+            LEFT JOIN distribution dist ON bv.id_besoin = dist.id_besoin
             GROUP BY v.id_ville, v.nom_ville
             ORDER BY v.nom_ville
         ");
@@ -118,15 +122,17 @@ class DashboardController extends BaseController
                 tb.nom AS type_nom,
                 tb.unite,
                 bv.quantite_demandee,
-                bv.quantite_recue,
-                (bv.quantite_demandee - bv.quantite_recue) AS quantite_manquante,
+                COALESCE(SUM(dist.quantite_attribuee), 0) AS quantite_recue,
+                (bv.quantite_demandee - COALESCE(SUM(dist.quantite_attribuee), 0)) AS quantite_manquante,
                 tb.prix_unitaire,
-                ((bv.quantite_demandee - bv.quantite_recue) * tb.prix_unitaire) AS valeur_manquante
+                ((bv.quantite_demandee - COALESCE(SUM(dist.quantite_attribuee), 0)) * tb.prix_unitaire) AS valeur_manquante
             FROM besoin_ville bv
             JOIN ville v ON bv.id_ville = v.id_ville
             JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
             JOIN categorie_besoin cb ON tb.id_categorie = cb.id_categorie
-            WHERE bv.quantite_recue < bv.quantite_demandee
+            LEFT JOIN distribution dist ON bv.id_besoin = dist.id_besoin
+            GROUP BY bv.id_besoin
+            WHERE COALESCE(SUM(dist.quantite_attribuee), 0)  < bv.quantite_demandee
             ORDER BY v.nom_ville, cb.nom_categorie, tb.nom
         ");
         $besoinsRestants = DataConverter::toArray($besoinsRestantsData);

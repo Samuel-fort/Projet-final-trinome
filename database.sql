@@ -322,3 +322,5 @@ ON DUPLICATE KEY UPDATE id_don = id_don;
 
 
 SELECT 'Mise à jour terminée avec succès !' AS resultat;
+
+--bugpourcentage--
