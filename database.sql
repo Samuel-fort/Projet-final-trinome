@@ -208,3 +208,153 @@ INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
 (2, 11, 5000000.00),   
 (3, 11, 20000000.00)   
 ON DUPLICATE KEY UPDATE id_don = id_don;
+
+
+--les données d'examen de base--
+
+INSERT INTO ville (nom_ville, region) VALUES
+('Mananjary', 'Vatovavy-Fitovinany'),
+('Farafangana', 'Atsimo-Atsinanana'),
+('Nosy Be', 'Diana');
+
+SELECT id_ville, nom_ville FROM ville;
+
+
+SELECT id_type_besoin, nom, unite, prix_unitaire, id_categorie FROM type_besoin;
+
+
+-- Ajouter Morondava si elle n'existe pas
+INSERT INTO ville (nom_ville, region) VALUES ('Morondava', 'Menabe');
+
+-- Vérifier que toutes les villes nécessaires existent
+SELECT id_ville, nom_ville FROM ville 
+WHERE nom_ville IN ('Toamasina', 'Mananjary', 'Farafangana', 'Nosy Be', 'Morondava');
+
+
+-- Ajouter "Bois" s'il n'existe pas
+INSERT INTO type_besoin (id_categorie, nom, unite, prix_unitaire) VALUES
+(2, 'Bois', 'm3', 10000);
+
+-- Ajouter "Groupe électrogène"
+INSERT INTO type_besoin (id_categorie, nom, unite, prix_unitaire) VALUES
+(2, 'Groupe électrogène', 'piece', 6750000);
+
+
+
+
+INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee, date_saisie) VALUES
+(2, 1, 800, '2026-02-16'),      -- Riz (800 kg)
+(2, 5, 1500, '2026-02-15'),     -- Eau (1500 L)
+(2, 6, 120, '2026-02-16'),      -- Tôle (120 pièces)
+(2, 9, 200, '2026-02-15'),      -- Bâche (200 pièces)
+(2, 11, 120000000, '2026-02-16'), -- Argent (120M Ar)
+(2, 13, 3, '2026-02-15');       -- Groupe électrogène (3 pièces) -- ID 13 à adapter
+
+
+INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee, date_saisie) VALUES
+(6, 1, 500, '2026-02-15'),      -- Riz
+(6, 2, 120, '2026-02-16'),      -- Huile
+(6, 6, 80, '2026-02-15'),       -- Tôle
+(6, 7, 60, '2026-02-16'),       -- Clous
+(6, 11, 60000000, '2026-02-15'); -- Argent
+
+
+INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee, date_saisie) VALUES
+(7, 1, 600, '2026-02-16'),      -- Riz
+(7, 5, 1000, '2026-02-15'),     -- Eau
+(7, 9, 150, '2026-02-16'),      -- Bâche
+(7, 12, 100, '2026-02-15'),     -- Bois (100 m3) -- ID 12 à adapter
+(7, 11, 80000000, '2026-02-16'); -- Argent
+
+
+INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee, date_saisie) VALUES
+(8, 1, 300, '2026-02-15'),      -- Riz
+(8, 4, 200, '2026-02-16'),      -- Haricots
+(8, 6, 40, '2026-02-15'),       -- Tôle
+(8, 7, 30, '2026-02-16'),       -- Clous
+(8, 11, 40000000, '2026-02-15'); -- Argent
+
+
+INSERT INTO besoin_ville (id_ville, id_type_besoin, quantite_demandee, date_saisie) VALUES
+(9, 1, 700, '2026-02-16'),      -- Riz
+(9, 5, 1200, '2026-02-15'),     -- Eau
+(9, 9, 180, '2026-02-16'),      -- Bâche
+(9, 12, 150, '2026-02-15'),     -- Bois (150 m3)
+(9, 11, 100000000, '2026-02-16'); -- Argent
+
+
+
+SELECT COUNT(*) AS total_besoins FROM besoin_ville;
+
+
+SELECT 
+    v.nom_ville,
+    bv.date_saisie,
+    tb.nom AS type_besoin,
+    bv.quantite_demandee,
+    tb.unite,
+    tb.prix_unitaire,
+    (bv.quantite_demandee * tb.prix_unitaire) AS valeur
+FROM besoin_ville bv
+JOIN ville v ON bv.id_ville = v.id_ville
+JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+ORDER BY v.nom_ville, bv.date_saisie;
+
+
+SELECT 
+    v.nom_ville,
+    COUNT(*) AS nb_besoins,
+    SUM(bv.quantite_demandee * tb.prix_unitaire) AS valeur_totale
+FROM besoin_ville bv
+JOIN ville v ON bv.id_ville = v.id_ville
+JOIN type_besoin tb ON bv.id_type_besoin = tb.id_type_besoin
+GROUP BY v.nom_ville;
+
+
+
+SELECT 
+    CONCAT('-- ', v.nom_ville, ' = ', v.id_ville) AS ville_ids
+FROM ville;
+
+SELECT 
+    CONCAT('-- ', tb.nom, ' = ', tb.id_type_besoin) AS type_ids
+FROM type_besoin
+ORDER BY tb.id_categorie, tb.nom;
+
+
+
+INSERT INTO donateur (nom, prenom, type_donateur) VALUES
+('RAKOTO', 'Jean', 'particulier'),
+('RANDRIA', 'Marie', 'particulier'),
+('RASOANAIVO', 'Paul', 'particulier');
+
+INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
+(1, 1, 1000);
+
+
+INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
+(2, 6, 150);
+
+
+INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
+(3, 9, 250);
+
+INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
+(1, 5, 2000);
+
+
+INSERT INTO don (id_donateur, id_type_besoin, quantite) VALUES
+(2, 11, 100000000);
+
+
+SELECT 
+    dn.id_don,
+    CONCAT(COALESCE(d.prenom, ''), ' ', COALESCE(d.nom, '')) AS donateur,
+    tb.nom AS type_don,
+    dn.quantite,
+    tb.unite,
+    dn.date_saisie
+FROM don dn
+LEFT JOIN donateur d ON dn.id_donateur = d.id_donateur
+JOIN type_besoin tb ON dn.id_type_besoin = tb.id_type_besoin
+ORDER BY dn.date_saisie DESC;
