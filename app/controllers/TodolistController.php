@@ -30,7 +30,7 @@ class TodolistController extends BaseController
 
 **Projet:** Système de Gestion des Dons pour Sinistrés  
 **Équipe:** Voara (004587), Samuel (003889), Lionel (003972)  
-**Dernière mise à jour:** ' . date('d F Y') . '
+
 
 ---
 
@@ -39,5 +39,67 @@ Les tâches ont été supprimées.
         }
         
         $this->redirect('/todolist?cleared=1');
+    }
+
+    public function pdf(): void
+    {
+        // Chemins des fichiers
+        $projectRoot = dirname(__DIR__, 2);
+        $htmlPath = $projectRoot . '/public/todolist.html';
+        $pdfPath = $projectRoot . '/public/todolist.pdf';
+        
+        // Si le PDF existe et est récent (moins de 1 heure), le servir directement
+        if (file_exists($pdfPath) && (time() - filemtime($pdfPath)) < 3600) {
+            $this->servePdf($pdfPath);
+            return;
+        }
+        
+        // Régénérer le PDF via LibreOffice
+        if (file_exists($htmlPath)) {
+            $this->generatePdfFromHtml($htmlPath, $pdfPath);
+            if (file_exists($pdfPath)) {
+                $this->servePdf($pdfPath);
+                return;
+            }
+        }
+        
+        // Fallback: créer le HTML puis le servir comme PDF téléchargeable
+        header('Content-Type: text/html; charset=utf-8');
+        echo '<h1>Erreur</h1><p>Impossible de générer le PDF. Veuillez essayer ultérieurement.</p>';
+    }
+
+    private function generatePdfFromHtml(string $htmlPath, string $pdfPath): bool
+    {
+        // Utiliser LibreOffice pour convertir HTML en PDF
+        $command = sprintf(
+            'libreoffice --headless --convert-to pdf --outdir %s %s 2>&1',
+            escapeshellarg(dirname($pdfPath)),
+            escapeshellarg($htmlPath)
+        );
+        
+        $output = [];
+        $returnCode = 0;
+        exec($command, $output, $returnCode);
+        
+        return file_exists($pdfPath);
+    }
+
+    private function servePdf(string $pdfPath): void
+    {
+        if (!file_exists($pdfPath)) {
+            return;
+        }
+
+        // Envoyer les headers pour téléchargement PDF
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="BNGRC-Todolist.pdf"');
+        header('Content-Length: ' . filesize($pdfPath));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        
+        // Lire et afficher le fichier PDF
+        readfile($pdfPath);
+        exit;
     }
 }

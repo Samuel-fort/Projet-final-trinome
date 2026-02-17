@@ -1,6 +1,9 @@
 <div class="todolist-container">
     <!-- Button section -->
     <div class="todolist-actions mb-3">
+        <a href="/" class="btn btn-secondary btn-sm">
+            <i class="bi bi-house-fill"></i> Retour au Dashboard
+        </a>
         <form method="POST" action="/todolist/delete-all" style="display: inline;">
             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir tout effacer ? Cette action est irréversible.');">
                 <i class="bi bi-trash"></i> Tout effacer

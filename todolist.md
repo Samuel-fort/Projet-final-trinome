@@ -2,7 +2,7 @@
 
 **Projet:** Système de Gestion des Dons pour Sinistrés  
 **Équipe:** Voara (004587), Samuel (003889), Lionel (003972)  
-**Dernière mise à jour:** 16 Février 2026
+
 
 ---
 
@@ -163,7 +163,7 @@
 ### Améliorations possibles
 - A FAIRE (Lionel) Authentification utilisateur complète
 - A FAIRE (Voara) Rôles & permissions (Admin, Donateur, Viewer)
-- A FAIRE (Samuel) Export PDF/Excel pour rapports
+- OK (Samuel) Export PDF/Excel pour rapports - Todolist en PDF disponible
 - A FAIRE (Samuel) Graphiques interactifs (Chart.js)
 - A FAIRE (Lionel) Notifications email
 - A FAIRE (Lionel) Historique des modifications (audit trail)
