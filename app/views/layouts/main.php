@@ -16,6 +16,7 @@
     
     <!-- Custom CSS -->
     <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/no-warnings.css" rel="stylesheet">
     
     <style>
         }

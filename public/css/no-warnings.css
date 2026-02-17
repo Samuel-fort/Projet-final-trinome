@@ -1,0 +1,33 @@
+/* Override for Bootstrap vendor prefixes to reduce CSS warnings */
+
+/* Suppress vendor-specific pseudo-elements that trigger warnings */
+::-webkit-outer-spin-button,
+::-webkit-inner-spin-button {
+    height: auto;
+}
+
+/* Override problematic Bootstrap properties */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Remove moz focus pseudo-elements from display */
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+/* Standard properties without vendor prefixes */
+.column-gap-1 { column-gap: 0.25rem; }
+.column-gap-2 { column-gap: 0.5rem; }
+.column-gap-3 { column-gap: 1rem; }
+.column-gap-4 { column-gap: 1.5rem; }
+.column-gap-5 { column-gap: 3rem; }
+
+/* Font smoothing */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
